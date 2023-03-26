@@ -1,5 +1,5 @@
 <h3>FLASK BACKEND API MONGODB</h3>
-<h4>Use postman to call API</br>pass json or form data through body </h4>
+<h4>Use postman post call API</br>pass json or form data through body </h4>
 <ul>
     <li>insert data. call api http://127.0.0.1:5000/insert </br>pass this in body</br>
     {
