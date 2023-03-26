@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request,jsonify
 import pymongo
 
 app = Flask(__name__)
@@ -71,19 +71,12 @@ def delete():
 
 @app.route('/view', methods=['POST',"GET"])
 def view():
+    res = generate_res(con)
     if request.method == "POST":
-        res = generate_res(con)
-        if request.method == "POST":
-            return res
-        if request.method == "GET":
-            return res
+        return res
+    if request.method == "GET":
+        return jsonify(res)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
-
