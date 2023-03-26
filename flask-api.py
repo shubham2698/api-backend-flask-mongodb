@@ -45,35 +45,38 @@ def insert():
 
 @app.route('/update', methods=['POST'])
 def update():
-    key, col, new_value = request.json["key"],request.json["col"],request.json["value"]
-    if col == "PRODUCT_UNIT":
-        subproduct = []
-        for each in new_value:
-            ins = f"{key} {each}"
-            subproduct.append(ins)
-        con.update_one({"_id":key},{"$set":{f"{col}":new_value}})
-        con.update_one({"_id": key}, {"$set": {f"SUB_PRODUCT": subproduct}})
-    else:
-        con.update_one({"_id": key}, {"$set": {f"{col}": new_value}})
-    res = generate_res(con)
-    return res
+    if request.method == "POST":
+        key, col, new_value = request.json["key"],request.json["col"],request.json["value"]
+        if col == "PRODUCT_UNIT":
+            subproduct = []
+            for each in new_value:
+                ins = f"{key} {each}"
+                subproduct.append(ins)
+            con.update_one({"_id":key},{"$set":{f"{col}":new_value}})
+            con.update_one({"_id": key}, {"$set": {f"SUB_PRODUCT": subproduct}})
+        else:
+            con.update_one({"_id": key}, {"$set": {f"{col}": new_value}})
+        res = generate_res(con)
+        return res
 
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    key = request.json["key"]
-    con.delete_one({"_id":key})
-    res = generate_res(con)
-    return res
+    if request.method == "POST":
+        key = request.json["key"]
+        con.delete_one({"_id":key})
+        res = generate_res(con)
+        return res
 
 
 @app.route('/view', methods=['POST',"GET"])
 def view():
-    res = generate_res(con)
     if request.method == "POST":
-        return res
-    if request.method == "GET":
-        return res
+        res = generate_res(con)
+        if request.method == "POST":
+            return res
+        if request.method == "GET":
+            return res
 
 
 if __name__ == '__main__':
